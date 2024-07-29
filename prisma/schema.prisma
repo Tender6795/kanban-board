@@ -12,3 +12,40 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         String      @id @default(uuid())
+  firstName  String
+  lastNmae   String
+  avatar_url String?
+  email      String      @unique
+  password   String
+  Procedure  Procedure[]
+
+  @@map("users")
+}
+
+enum TYPE_STATUS {
+  TODO
+  ON_GOING
+  DONE
+  WAITING
+}
+
+enum TYPE_PRIORITY {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Procedure {
+  id          String         @id @default(uuid())
+  dueDate     DateTime       @default(now()) @map("created_at")
+  description String
+  status      TYPE_STATUS
+  assined     User?          @relation(fields: [assinedId], references: [id])
+  assinedId   String
+  imporance   TYPE_PRIORITY
+
+  @@map("proceures")
+}
