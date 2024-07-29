@@ -47,5 +47,5 @@ model Procedure {
   assinedId   String
   imporance   TYPE_PRIORITY
 
-  @@map("proceures")
+  @@map("procedures")
 }
