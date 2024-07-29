@@ -1,5 +1,5 @@
 import React from "react";
-import { Procedure, User } from "@prisma/client";
+import { Procedure } from "@prisma/client";
 import Card from "./Card";
 
 type AllCardsProps = {
