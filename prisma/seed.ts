@@ -30,6 +30,7 @@ async function seed() {
           "https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676296367166243426.png",
       },
     });
+
     console.log(`User created: ${user1.email}, ${user2.email}`);
 
     await prisma.procedure.createMany({
@@ -37,29 +38,31 @@ async function seed() {
         {
           description: "Fix the printer",
           status: "TODO",
-          assinedId: user1.id,
-          imporance: "HIGH",
+          assignedId: user1.id,
+          importance: "HIGH",
         },
         {
           description: "Order office supplies",
           status: "ON_GOING",
-          assinedId: user1.id,
-          imporance: "MEDIUM",
+          assignedId: user1.id,
+          importance: "MEDIUM",
         },
         {
           description: "Review marketing campaign",
           status: "WAITING",
-          assinedId: user2.id,
-          imporance: "LOW",
+          assignedId: user2.id,
+          importance: "LOW",
         },
         {
           description: "Write a blog post",
           status: "DONE",
-          assinedId: user2.id,
-          imporance: "HIGH",
+          assignedId: user2.id,
+          importance: "HIGH",
         },
       ],
     });
+
+    console.log("Procedures created");
   } catch (error) {
     console.error("Seed error: ", error);
   } finally {

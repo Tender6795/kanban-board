@@ -43,9 +43,9 @@ model Procedure {
   dueDate     DateTime       @default(now()) @map("created_at")
   description String
   status      TYPE_STATUS
-  assined     User?          @relation(fields: [assinedId], references: [id])
-  assinedId   String
-  imporance   TYPE_PRIORITY
+  assigned    User?          @relation(fields: [assignedId], references: [id])
+  assignedId  String
+  importance  TYPE_PRIORITY
 
   @@map("procedures")
 }

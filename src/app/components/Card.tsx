@@ -1,7 +1,12 @@
 import React from "react";
 import Image from "next/image";
+import { Procedure, User } from "@prisma/client";
 
-export const Card = () => {
+type CardProps = {
+  procedure: Procedure & { assigned?: User | null };
+};
+
+const Card: React.FC<CardProps> = ({ procedure }) => {
   return (
     <div className="w-[300px] h-[185px] p-5 rounded-lg bg-white flex flex-col items-start gap-2 relative">
       <div className="flex gap-2">
@@ -11,24 +16,24 @@ export const Card = () => {
         </div>
       </div>
       <p className="font-satoshi text-[16px] font-extrabold leading-[24px] tracking-[-0.2px] text-left text-[#64748B]">
-        Créer un nouveau compte sur DocutIT
+        {procedure.description}
       </p>
-      <div className="flex items-center gap-2 mt-2">
-        <img
-          src="https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676296367166243426.png"
-          alt="Avatar"
-          className="w-6 h-6 rounded-full"
-        />
-        <span className="font-inter text-[12px] font-medium leading-[20px] tracking-[-0.12px] text-left text-[#1C274C]">
-          Joe Regan
-        </span>
-      </div>
+      {procedure.assigned && (
+        <div className="flex items-center gap-2 mt-2">
+          <img
+            src={procedure.assigned.avatar_url || "https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676296367166243426.png"}
+            alt="Avatar"
+            className="w-6 h-6 rounded-full"
+          />
+          <span className="font-inter text-[12px] font-medium leading-[20px] tracking-[-0.12px] text-left text-[#1C274C]">
+            {procedure.assigned.firstName} {procedure.assigned.lastName}
+          </span>
+        </div>
+      )}
       <div
-        className="w-[260px] border-t border-[#D1D5DB] mb-5"
+        className="w-[260px] border-t border-[#D1D5DB] mt-2"
         style={{ transform: "rotate(-0.23deg)" }}
       ></div>
-
-      {/* Bottom left corner content */}
       <div className="absolute bottom-5 left-5 flex items-center gap-1">
         <Image
           src="/icons/Dua_date_low.svg" 
@@ -38,15 +43,13 @@ export const Card = () => {
           className="w-3 h-3"
         />
         <span className="font-inter text-[12px] font-medium text-[#1C274C]">
-          Due date: 27/08/24
+          Due date: {new Date(procedure.dueDate).toLocaleDateString()}
         </span>
       </div>
-
-      {/* Bottom right corner content */}
       <div className="absolute bottom-5 right-5 flex items-center gap-1">
         <Image
           src="/icons/NotificationIcon.svg" 
-          alt="NotificationIcon"
+          alt="Notification Icon"
           width={35}
           height={35}
           className="w-3.5 h-3.5"
