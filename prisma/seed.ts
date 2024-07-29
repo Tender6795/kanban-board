@@ -12,7 +12,7 @@ async function seed() {
     const user1 = await prisma.user.create({
       data: {
         firstName: "John",
-        lastNmae: "Doe",
+        lastName: "Doe",
         email: "john.doe@example.com",
         password: "123456",
         avatar_url:
@@ -23,7 +23,7 @@ async function seed() {
     const user2 = await prisma.user.create({
       data: {
         firstName: "Jane",
-        lastNmae: "Smith",
+        lastName: "Smith",
         email: "jane.smith@example.com",
         password: "123456",
         avatar_url:
