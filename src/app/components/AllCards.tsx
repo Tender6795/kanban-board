@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import { Procedure } from "@prisma/client";
 import Card from "./Card";
 import { statuses } from "../constants";
@@ -32,17 +33,38 @@ const Column = ({ status, procedures }: { status: string, procedures: Procedure[
 };
 
 const AllCards = ({ procedures }: AllCardsProps) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const getProceduresByStatus = (status: string) => {
     return procedures.filter(procedure => procedure.status === status);
   };
 
+  const filterProcedures = (procedures: Procedure[], term: string) => {
+    const lowerCaseTerm = term.toLowerCase();
+    return procedures.filter(procedure =>
+      procedure.description.toLowerCase().includes(lowerCaseTerm) ||
+      procedure.importance.toLowerCase().includes(lowerCaseTerm) || 
+      procedure.status.toLowerCase().includes(lowerCaseTerm) || 
+      procedure.category.toLowerCase().includes(lowerCaseTerm)
+    );
+  };
+
   return (
-    <div className="flex flex-wrap gap-4 p-4">
-      {statuses.map(status => (
-        <div key={status} className="flex-1 min-w-[200px] max-w-full">
-          <Column status={status} procedures={getProceduresByStatus(status)} />
-        </div>
-      ))}
+    <div className="p-4">
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-4 w-full p-2 border border-[#D1D5DB] rounded"
+      />
+      <div className="flex flex-wrap gap-4">
+        {statuses.map(status => (
+          <div key={status} className="flex-1 min-w-[200px] max-w-full">
+            <Column status={status} procedures={filterProcedures(getProceduresByStatus(status), searchTerm)} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
