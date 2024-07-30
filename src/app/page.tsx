@@ -12,7 +12,7 @@ export async function getAllProceduresFromServer() {
 const Home: NextPage = async () => {
   const procedures = await getAllProceduresFromServer();
   return (
-    <>
+    <> 
       <Header />
       <AllCards procedures={procedures} />;
     </>

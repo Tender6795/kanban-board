@@ -9,3 +9,7 @@ export async function getAllProcedures() {
     },
   });
 }
+
+export async function getAllUsers() {
+  return await prisma.user.findMany();
+}
