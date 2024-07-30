@@ -14,7 +14,7 @@ const Home: NextPage = async () => {
   return (
     <> 
       <Header />
-      <AllCards procedures={procedures} />;
+      <AllCards procedures={procedures} />
     </>
   );
 };
