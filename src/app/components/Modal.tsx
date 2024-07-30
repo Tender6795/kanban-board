@@ -81,7 +81,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  return isOpen ? (
+  return isOpen&& (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
         <h2 className="text-lg font-satoshi font-extrabold mb-4 text-[#1C274C]">
@@ -210,7 +210,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
     </div>
-  ) : null;
+  ) ;
 };
 
 export default Modal;
