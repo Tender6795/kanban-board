@@ -15,8 +15,16 @@ const Column = ({ status, procedures }: { status: string, procedures: Procedure[
     <div className="flex flex-col items-start p-4">
       <div className="flex items-center mb-2">
         <div className="w-4 h-4 rounded-full mr-2" style={{ backgroundColor: color }}></div>
-        <h2 className="font-bold text-lg">{status}</h2>
-        <span className="ml-2 text-sm text-gray-500">({procedures.length})</span>
+        <h2
+          className="font-satoshi text-[14px] font-bold leading-[22px] text-[#1C274C] text-center"
+        >
+          {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
+        </h2>
+        <span
+          className="ml-2 text-[14px] font-bold leading-[22px] text-[#1C274C] text-center"
+        >
+          ({procedures.length})
+        </span>
       </div>
       <div className="flex flex-col gap-4">
         {procedures.map((procedure: Procedure) => (
