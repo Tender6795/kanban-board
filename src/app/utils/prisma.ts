@@ -28,7 +28,7 @@ export async function saveProcedure(procedureData: {
   description: string;
   importance: TYPE_PRIORITY; 
   status: TYPE_STATUS;
-  assignedUserId: string;
+  assignedId: string;
   category: TYPE_CATEGORY; 
 }) {
   try {
@@ -37,7 +37,7 @@ export async function saveProcedure(procedureData: {
         description: procedureData.description,
         importance: procedureData.importance, 
         status: procedureData.status,
-        assignedId: procedureData.assignedUserId,
+        assignedId: procedureData.assignedId,
         category: procedureData.category,
       },
     });

@@ -13,7 +13,8 @@ export interface Procedure {
   description: string;
   status: "TODO" | "ON_GOING" | "DONE" | "WAITING";
   importance: "LOW" | "MEDIUM" | "HIGH";
-  assignedId?: string;
+  assignedId: string;
   assigned?: User;
   category: "BUG" | "DESIGN" | "FEATURE" | "RESEARCH";
 }
+

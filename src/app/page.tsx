@@ -1,19 +1,30 @@
+"use client"
 import type { NextPage } from "next";
 import AllCards from "./components/AllCards";
 import { Procedure } from "@prisma/client";
-import { getAllProcedures } from "./utils/prisma";
 import Header from "./components/Header";
+import { useEffect, useState } from "react";
+import { getAllProceduresFromServer } from "./action";
 
-export async function getAllProceduresFromServer() {
-  "use server";
-  return (await getAllProcedures()) as Procedure[];
-}
 
-const Home: NextPage = async () => {
-  const procedures = await getAllProceduresFromServer();
+
+const Home: NextPage = () => {
+  const [procedures, setProcedures] = useState<Procedure[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getAllProceduresFromServer();
+      setProcedures(res);
+    })();
+  }, []);
+
+  const addProcedure = (procedure: Procedure) => {
+    setProcedures((prev) => [...prev, procedure]);
+  };
+
   return (
-    <> 
-      <Header />
+    <>
+      <Header addProcedure={addProcedure}/>
       <AllCards procedures={procedures} />
     </>
   );

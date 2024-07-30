@@ -1,9 +1,13 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Modal from "./Modal"; 
+import Modal from "./Modal";
+import { Procedure } from "../types";
 
-const Header = () => {
+type HeaderProps = {
+  addProcedure: (procedure: Procedure) => void;
+};
+const Header: React.FC<HeaderProps> = ({ addProcedure }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -23,7 +27,7 @@ const Header = () => {
           </nav>
         </div>
         <button
-          onClick={openModal} 
+          onClick={openModal}
           className="flex items-center gap-2 bg-[#635BFF] text-white rounded-[10px] py-[10px] px-[12px] opacity-100"
         >
           <Image
@@ -38,7 +42,11 @@ const Header = () => {
           </span>
         </button>
       </header>
-      <Modal isOpen={isModalOpen} onClose={closeModal} /> {/* Модальное окно */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        addProcedure={addProcedure}
+      />
     </>
   );
 };
