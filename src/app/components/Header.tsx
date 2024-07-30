@@ -24,7 +24,7 @@ const Header = () => {
         </div>
         <button
           onClick={openModal} 
-          className="flex items-center gap-2 bg-[#635BFF] text-white rounded-[8px_0px_0px_0px] py-[10px] px-[12px] opacity-100"
+          className="flex items-center gap-2 bg-[#635BFF] text-white rounded-[10px] py-[10px] px-[12px] opacity-100"
         >
           <Image
             src="/icons/Add_square.svg"
@@ -33,7 +33,7 @@ const Header = () => {
             height={20}
             className="w-5 h-5"
           />
-          <span className="font-satoshiVariable text-[16px] font-extrabold leading-[24px] tracking-[-0.2px] text-white">
+          <span className="font-satoshiVariable text-[16px] font-extrabold leading-[24px] tracking-[-0.2px] text-white ">
             Create a new procedure
           </span>
         </button>

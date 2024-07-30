@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ procedure }) => {
   return (
     <div className="flex flex-col bg-white rounded-lg p-5 gap-2 shadow-md">
       <div className="flex gap-2">
-        <div className="w-[56px] h-[16px] p-[2px_10px] rounded-[10px]">
+        <div className="w-[56px] h-[16px] p-[2px_5px] rounded-[10px]">
           <Image
             src={getIconByPriority(procedure.importance)}
             alt="Status"
@@ -50,8 +50,8 @@ const Card: React.FC<CardProps> = ({ procedure }) => {
         className="w-full border-t border-[#D1D5DB] mt-2"
         style={{ transform: "rotate(-0.23deg)" }}
       ></div>
-      <div className="flex justify-between mt-2 text-[#1C274C]">
-        <div className="flex items-center gap-1">
+      <div className="flex justify-between mt-2 text-[#1C274C] ">
+        <div className="flex items-center gap-1 rounded-[10px] bg-[#5457761A] p-[4px] ">
           <Image
             src="/icons/Dua_date_low.svg"
             alt="Due Date Icon"
