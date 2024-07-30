@@ -38,6 +38,13 @@ enum TYPE_PRIORITY {
   HIGH
 }
 
+enum TYPE_CATEGORY {
+  BUG
+  DESIGN
+  FEATURE
+  RESEARCH
+}
+
 model Procedure {
   id          String         @id @default(uuid())
   dueDate     DateTime       @default(now()) @map("created_at")
@@ -46,6 +53,7 @@ model Procedure {
   assigned    User?          @relation(fields: [assignedId], references: [id])
   assignedId  String
   importance  TYPE_PRIORITY
+  category TYPE_CATEGORY
 
   @@map("procedures")
 }

@@ -40,24 +40,28 @@ async function seed() {
           status: "TODO",
           assignedId: user1.id,
           importance: "HIGH",
+          category: "BUG"
         },
         {
           description: "Order office supplies",
           status: "ON_GOING",
           assignedId: user1.id,
           importance: "MEDIUM",
+          category: "DESIGN"
         },
         {
           description: "Review marketing campaign",
           status: "WAITING",
           assignedId: user2.id,
           importance: "LOW",
+          category: "FEATURE"
         },
         {
           description: "Write a blog post",
           status: "DONE",
           assignedId: user2.id,
           importance: "HIGH",
+          category: "RESEARCH"
         },
       ],
     });
