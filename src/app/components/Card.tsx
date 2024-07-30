@@ -8,6 +8,10 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ procedure }) => {
+  const capitalizeCategory = (category: string) => {
+    return category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+  };
+
   return (
     <div className="flex flex-col bg-white rounded-lg p-5 gap-2 shadow-md">
       <div className="flex gap-2">
@@ -20,8 +24,8 @@ const Card: React.FC<CardProps> = ({ procedure }) => {
             className="w-[56px] h-[16px]"
           />
         </div>
-        <div className="w-[55px] h-[16px] px-[10px] flex items-center border-[0.5px] border-[#D1D5DB] rounded-[10px] text-[#64748B] font-inter text-[10px] font-normal leading-[16px] tracking-[-0.1px] text-left">
-          Réseau
+        <div className="px-[10px] py-[2px] flex items-center justify-center border-[0.5px] border-[#D1D5DB] rounded-[10px] text-[#64748B] font-inter text-[10px] font-normal leading-[16px] tracking-[-0.1px] text-center">
+          {capitalizeCategory(procedure.category)}
         </div>
       </div>
       <p className="font-satoshi text-[16px] font-extrabold leading-[24px] text-[#64748B]">
@@ -30,7 +34,10 @@ const Card: React.FC<CardProps> = ({ procedure }) => {
       {procedure.assigned && (
         <div className="flex items-center gap-2 mt-2">
           <img
-            src={procedure.assigned.avatar_url || "https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676296367166243426.png"}
+            src={
+              procedure.assigned.avatar_url ||
+              "https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676296367166243426.png"
+            }
             alt="Avatar"
             className="w-6 h-6 rounded-full"
           />
@@ -39,7 +46,10 @@ const Card: React.FC<CardProps> = ({ procedure }) => {
           </span>
         </div>
       )}
-      <div className="w-full border-t border-[#D1D5DB] mt-2" style={{ transform: "rotate(-0.23deg)" }}></div>
+      <div
+        className="w-full border-t border-[#D1D5DB] mt-2"
+        style={{ transform: "rotate(-0.23deg)" }}
+      ></div>
       <div className="flex justify-between mt-2 text-[#1C274C]">
         <div className="flex items-center gap-1">
           <Image
@@ -61,9 +71,7 @@ const Card: React.FC<CardProps> = ({ procedure }) => {
             height={20}
             className="w-5 h-5"
           />
-          <span className="font-inter text-[12px] font-medium">
-            1
-          </span>
+          <span className="font-inter text-[12px] font-medium">1</span>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { statuses } from "../constants";
-import { getAllUsersFromServer } from "../action";
+import { createProcedure, getAllUsersFromServer } from "../action";
 import { User } from "../types";
 import * as z from "zod";
 
@@ -10,6 +9,13 @@ type ModalProps = {
   onClose: () => void;
 };
 
+enum TYPE_CATEGORY {
+  BUG = "Bug",
+  DESIGN = "Design",
+  FEATURE = "Feature",
+  RESEARCH = "Research",
+}
+
 const procedureSchema = z.object({
   description: z.string().nonempty({ message: "Description is required" }),
   importance: z.enum(["High", "Medium", "Low"], {
@@ -17,6 +23,9 @@ const procedureSchema = z.object({
   }),
   status: z.string().nonempty({ message: "Status is required" }),
   assignedUserId: z.string().nonempty({ message: "Assigned user is required" }),
+  category: z.nativeEnum(TYPE_CATEGORY, {
+    errorMap: () => ({ message: "Category is required" }),
+  }),
 });
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
@@ -24,6 +33,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [importance, setImportance] = useState("High");
   const [status, setStatus] = useState(statuses[0]);
   const [assignedUserId, setAssignedUserId] = useState<string | undefined>();
+  const [category, setCategory] = useState(TYPE_CATEGORY.BUG);
   const [users, setUsers] = useState<User[]>([]);
   const [errors, setErrors] = useState<z.ZodIssue[]>([]);
 
@@ -43,29 +53,31 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       setImportance("High");
       setStatus(statuses[0]);
       setAssignedUserId(users.length > 0 ? users[0].id : undefined);
+      setCategory(TYPE_CATEGORY.BUG);
       setErrors([]);
     }
   }, [isOpen, users]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     const validationResult = procedureSchema.safeParse({
       description,
       importance,
       status,
       assignedUserId,
+      category,
     });
 
     if (!validationResult.success) {
       setErrors(validationResult.error.issues);
       return;
     }
-
-    // onSubmit({
-    //   description,
-    //   importance,
-    //   status,
-    //   assignedUserId,
-    // });
+   const resp = await createProcedure({
+      description,
+      importance: importance.toUpperCase(),
+      status: status.toUpperCase(),
+      assignedUserId,
+      category: category.toUpperCase()
+    })
     onClose();
   };
 
@@ -77,15 +89,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </h2>
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 font-bold text-xl"
         >
-          <Image
-            src="/icons/Close.svg"
-            alt="Close Icon"
-            width={24}
-            height={24}
-            className="w-6 h-6"
-          />
+          X
         </button>
         <div className="flex flex-col gap-4">
           <div>
@@ -163,6 +169,27 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             {errors.find((err) => err.path.includes("assignedUserId")) && (
               <span className="text-red-500 text-xs">
                 {errors.find((err) => err.path.includes("assignedUserId"))?.message}
+              </span>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-inter text-[#64748B] mb-1">
+              Category
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value as TYPE_CATEGORY)}
+              className="w-full p-2 border border-[#D1D5DB] rounded"
+            >
+              {Object.values(TYPE_CATEGORY).map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            {errors.find((err) => err.path.includes("category")) && (
+              <span className="text-red-500 text-xs">
+                {errors.find((err) => err.path.includes("category"))?.message}
               </span>
             )}
           </div>
