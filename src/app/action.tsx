@@ -1,6 +1,6 @@
 "use server";
 import { Procedure } from "@prisma/client";
-import { User } from "./types";
+import { ProcedureWithUser, User } from "./types";
 import { getAllProcedures, getAllUsers, saveProcedure } from "./utils/prisma";
 
 export async function getAllUsersFromServer() {
@@ -9,8 +9,8 @@ export async function getAllUsersFromServer() {
 
 //TODO
 export async function createProcedure (procedureData:any){
-  return await saveProcedure(procedureData)
+  return await saveProcedure(procedureData) as ProcedureWithUser
 }
 export async function getAllProceduresFromServer() {
-  return (await getAllProcedures()) as( Procedure & { assigned?: User | null })[];
+  return (await getAllProcedures()) as ProcedureWithUser[];
 }

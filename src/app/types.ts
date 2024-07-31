@@ -14,7 +14,9 @@ export interface Procedure {
   status: "TODO" | "ON_GOING" | "DONE" | "WAITING";
   importance: "LOW" | "MEDIUM" | "HIGH";
   assignedId: string;
-  assigned?: User;
   category: "BUG" | "DESIGN" | "FEATURE" | "RESEARCH";
 }
 
+export interface ProcedureWithUser extends Procedure {
+  assigned?: User | null;
+}

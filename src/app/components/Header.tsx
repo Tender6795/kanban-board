@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Modal from "./Modal";
-import { Procedure } from "../types";
+import { Procedure, ProcedureWithUser } from "../types";
 
 type HeaderProps = {
-  addProcedure: (procedure: Procedure) => void;
+  addProcedure: (procedure: ProcedureWithUser) => void;
 };
 const Header: React.FC<HeaderProps> = ({ addProcedure }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

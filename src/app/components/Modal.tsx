@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { statuses } from "../constants";
 import { createProcedure, getAllUsersFromServer } from "../action";
-import { Procedure, User } from "../types";
+import { Procedure, ProcedureWithUser, User } from "../types";
 import * as z from "zod";
+import { motion } from "framer-motion";
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  addProcedure: (procedure: Procedure) => void;
+  addProcedure: (procedure: ProcedureWithUser) => void;
 };
 
 enum TYPE_CATEGORY {
@@ -18,7 +19,11 @@ enum TYPE_CATEGORY {
 }
 
 const procedureSchema = z.object({
-  description: z.string().nonempty({ message: "Description is required" }),
+  description: z
+    .string()
+    .nonempty({ message: "Description is required" })
+    .min(5, { message: "Description must be at least 5 characters" })
+    .max(100, { message: "Description must be at most 100 characters" }),
   importance: z.enum(["High", "Medium", "Low"], {
     errorMap: () => ({ message: "Priority is required" }),
   }),
@@ -79,14 +84,20 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
       assignedId,
       category: category.toUpperCase(),
     });
-    addProcedure(resp)
+    addProcedure(resp);
     onClose();
   };
 
   return (
     isOpen && (
       <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.3 }}
+          className="bg-white p-6 rounded-lg w-full max-w-md relative"
+        >
           <h2 className="text-lg font-satoshi font-extrabold mb-4 text-[#1C274C]">
             Create Procedure
           </h2>
@@ -104,7 +115,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-2 border border-[#D1D5DB] rounded"
+                className="w-full p-2 border border-[#D1D5DB] rounded-lg focus:ring-2 focus:ring-[#635BFF] focus:border-[#635BFF]"
                 rows={4}
               />
               {errors.find((err) => err.path.includes("description")) && (
@@ -123,7 +134,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
               <select
                 value={importance}
                 onChange={(e) => setImportance(e.target.value)}
-                className="w-full p-2 border border-[#D1D5DB] rounded"
+                className="w-full p-2 bg-[#F3F4F6] border border-[#D1D5DB] rounded-lg focus:ring-2 focus:ring-[#635BFF] focus:border-[#635BFF]"
               >
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
@@ -145,7 +156,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full p-2 border border-[#D1D5DB] rounded"
+                className="w-full p-2 bg-[#F3F4F6] border border-[#D1D5DB] rounded-lg focus:ring-2 focus:ring-[#635BFF] focus:border-[#635BFF]"
               >
                 {statuses.map((status) => (
                   <option key={status} value={status}>
@@ -167,7 +178,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
               <select
                 value={assignedId}
                 onChange={(e) => setassignedId(e.target.value)}
-                className="w-full p-2 border border-[#D1D5DB] rounded"
+                className="w-full p-2 bg-[#F3F4F6] border border-[#D1D5DB] rounded-lg focus:ring-2 focus:ring-[#635BFF] focus:border-[#635BFF]"
               >
                 {users?.map((user) => (
                   <option key={user.id} value={user.id}>
@@ -191,7 +202,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as TYPE_CATEGORY)}
-                className="w-full p-2 border border-[#D1D5DB] rounded"
+                className="w-full p-2 bg-[#F3F4F6] border border-[#D1D5DB] rounded-lg focus:ring-2 focus:ring-[#635BFF] focus:border-[#635BFF]"
               >
                 {Object.values(TYPE_CATEGORY).map((category) => (
                   <option key={category} value={category}>
@@ -208,19 +219,19 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, addProcedure }) => {
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={handleSubmit}
-                className="bg-[#635BFF] text-white py-2 px-4 rounded"
+                className="bg-[#635BFF] text-white py-2 px-4 rounded-lg hover:bg-[#4e4bfc]"
               >
                 Create
               </button>
               <button
                 onClick={onClose}
-                className="bg-gray-300 text-gray-700 py-2 px-4 rounded"
+                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400"
               >
                 Cancel
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     )
   );

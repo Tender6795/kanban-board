@@ -5,11 +5,12 @@ import { Procedure } from "@prisma/client";
 import Header from "./components/Header";
 import { useEffect, useState } from "react";
 import { getAllProceduresFromServer } from "./action";
+import { ProcedureWithUser } from "./types";
 
 
 
 const Home: NextPage = () => {
-  const [procedures, setProcedures] = useState<Procedure[]>([]);
+  const [procedures, setProcedures] = useState<ProcedureWithUser[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -18,15 +19,15 @@ const Home: NextPage = () => {
     })();
   }, []);
 
-  const addProcedure = (procedure: Procedure) => {
+  const addProcedure = (procedure: ProcedureWithUser) => {
     setProcedures((prev) => [...prev, procedure]);
   };
 
   return (
-    <>
-      <Header addProcedure={addProcedure}/>
-      <AllCards procedures={procedures} />
-    </>
+    <div className="max-w-[1370px] mx-auto px-4">
+    <Header addProcedure={addProcedure} />
+    <AllCards procedures={procedures} />
+  </div>
   );
 };
 
