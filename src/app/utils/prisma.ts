@@ -40,6 +40,9 @@ export async function saveProcedure(procedureData: {
         assignedId: procedureData.assignedId,
         category: procedureData.category,
       },
+      include: {
+        assigned: true,
+      },
     });
     return newProcedure;
   } catch (error) {
